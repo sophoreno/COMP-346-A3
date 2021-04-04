@@ -99,7 +99,7 @@ public class Philosopher extends BaseThread
 			// Using the Random class to generate an integer
 			// between 0 and 9
 			Random rand = new Random();
-			if(rand.nextInt(10) <= 4)
+			if (rand.nextInt(10) <= 4)
 			{
 				// Some monitor ops down here...
 				DiningPhilosophers.soMonitor.requestTalk(getTID());
