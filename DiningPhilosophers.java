@@ -4,8 +4,6 @@
  *
  * @author Serguei A. Mokhov, mokhov@cs.concordia.ca
  */
-import java.text.NumberFormat;
-import java.util.Scanner; // I added, maybe use something else
 public class DiningPhilosophers
 {
 	/*
@@ -26,7 +24,7 @@ public class DiningPhilosophers
 	public static final int DINING_STEPS = 10;
 
 	/**
-	 * Our shared monitor for the philosphers to consult
+	 * Our shared monitor for the philosophers to consult
 	 */
 	public static Monitor soMonitor = null;
 
@@ -44,26 +42,28 @@ public class DiningPhilosophers
 		try
 		{
 			/*
-			 * TODO:
-			 * Should be settable from the command line
-			 * or the default if no arguments supplied.
+			 * Settable from the command line
+			 * Default if no arguments supplied.
 			 */
-			// Only settable from the console, not the command line
+
 			int iPhilosophers;
-			Scanner input = new Scanner(System.in);
-			System.out.print("How many philosophers are there: ");
-			String numPhilStr = input.next();
+			if (argv.length > 0) {
+				try {
+					iPhilosophers = Integer.parseInt(argv[0]);
+					if (iPhilosophers <= 0) { // argument is negative or zero
+						System.out.println("\"" + argv[0] + "\"" + " is not a positive decimal integer." +
+								"\n\nUsage: java DiningPhilosophers[NUMBER_OF_PHILOSOPHERS]");
+						iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+					}
 
-			try {
-				iPhilosophers = Integer.parseInt(numPhilStr);
-				if (iPhilosophers <= 0)
-					throw new NumberFormatException();
-			} catch (NumberFormatException e) {
-				System.out.println("\"" + numPhilStr + "\"" + " is not a positive decimal integer." +
-						"\nUsage: java DiningPhilosophers[NUMBER_OF_PHILOSOPHERS]");
-				iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+				} catch (NumberFormatException e) { // argument is not valid
+					System.out.println("\"" + argv[0] + "\"" + " is not a positive decimal integer." +
+							"\n\nUsage: java DiningPhilosophers[NUMBER_OF_PHILOSOPHERS]");
+					iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+				}
 			}
-
+			else // if no arguments are given
+				iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
 
 			// Make the monitor aware of how many philosophers there are
 			soMonitor = new Monitor(iPhilosophers);

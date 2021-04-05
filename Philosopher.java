@@ -91,21 +91,13 @@ public class Philosopher extends BaseThread
 			DiningPhilosophers.soMonitor.putDown(getTID());
 			think();
 
-			/*
-			 * TODO:
-			 * A decision is made at random whether this particular
-			 * philosopher is about to say something terribly useful.
-			 */
-			// Using the Random class to generate an integer
-			// between 0 and 9
+			// Using the Random class to generate an integer between 0 and 9
+			// Philosopher will talk if integer <= 5
 			Random rand = new Random();
-			if(rand.nextInt(10) <= 4)
-			{
-				// Some monitor ops down here...
+			if (rand.nextInt(10) <= 5) {
 				DiningPhilosophers.soMonitor.requestTalk(getTID());
 				talk();
 				DiningPhilosophers.soMonitor.endTalk(getTID());
-				// ...
 			}
 			Thread.yield();
 		}
