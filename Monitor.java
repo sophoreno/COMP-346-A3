@@ -60,34 +60,59 @@ public class Monitor
 		}
 		statePhil[piTID - 1] = "eating";
 	}
+	/**
+	 * Picks up the current philosopher's left chopstick
+	 * @param piTID the piTID of the philosopher picking up
+	 */
+	public void pickUpLeftChopstick(int piTID) {
+		while (!stateChop[piTID - 1].equals("available")) {
+			try {
+//				System.out.println(" --- Philo " + piTID + " can't pick up left Chopstick." +
+//						"\n\t\tWill wait.");
+				wait();
+			} catch (InterruptedException e) {
+				System.out.println(" - interrupted exception :(");
+			}
+		}
+		stateChop[piTID - 1] = "occupied";
+//		System.out.println("     Philo " + piTID + " finally picked up left chopstick.");
 
+	}
+	/**
+	 * Picks up the current philosopher's right chopstick
+	 * @param piTID the piTID of the philosopher picking up
+	 */
+	public void pickUpRightChopstick(int piTID) {
+		while (!stateChop[piTID % stateChop.length].equals("available")) {
+			try {
+//				System.out.println(" --- Philo " + piTID + " can't pick up right Chopstick." +
+//						"\n\t\tWill wait.");
+				wait();
+			} catch (InterruptedException e) {
+				System.out.println(" - interrupted exception :(");
+			}
+		}
+		stateChop[piTID % stateChop.length] = "occupied";
+//		System.out.println("     Philo " + piTID + " finally picked up right chopstick.");
 
+	}
 	/**
 	 * When a given philosopher's done eating, they put the chopsticks/forks down
 	 * and let others know they are available.
 	 */
 	public synchronized void putDown(final int piTID)
 	{
-//		int numPhilos = statePhil.length; // to remove at the end
 		// Philosopher state goes back to thinking
 		statePhil[piTID - 1] = "thinking";
 		// Both chopsticks become available
 		stateChop[piTID - 1] = "available"; // left
 		stateChop[piTID % stateChop.length] = "available"; // right
 
-//		System.out.println(" --- Philo " + piTID + " puts down." +
-//				"\n     Her current state = " + statePhil[piTID-1]);
-//		System.out.println("     Left Chop " + (piTID) + " state = " +
-//				stateChop[piTID-1]);
-//		System.out.println("     Right Chop " + (piTID % numPhilos+1) + " state = " +
-//				stateChop[piTID % numPhilos]);
-//
 //		System.out.println("CALL TO NOTIFYALL()");
 		// Notifies all hungry philosophers to check
 		// for a new available chopstick
 		notifyAll();
 	}
-
 	/**
 	 * Only one philosopher at a time is allowed to philosophy
 	 * (while she is not eating).
@@ -111,7 +136,6 @@ public class Monitor
 		if (!statePhil[piTID - 1].equals("eating"))
 			statePhil[piTID - 1] = "talking";
 	}
-
 	/**
 	 * When one philosopher is done talking stuff, others
 	 * can feel free to start talking.
@@ -124,57 +148,7 @@ public class Monitor
 		// if one is waiting to talk
 		if (philosWaitingToTalk > 0) {
 			philosWaitingToTalk--;
-//			System.out.println("CALL TO NOTIFY FROM ENDTALK");
 			notify();
-		}
-
-	}
-
-	/**
-	 * Picks up the current philosopher's left chopstick
-	 * @param piTID the piTID of the philosopher picking up
-	 */
-	public void pickUpLeftChopstick(int piTID) {
-		if (stateChop[piTID - 1].equals("available")) {
-			stateChop[piTID - 1] = "occupied";
-//			System.out.println("     Philo " + piTID + " picked up left chopstick.");
-		}
-		else {
-			while (!stateChop[piTID - 1].equals("available")) {
-				try {
-//					System.out.println(" --- Philo " + piTID + " can't pick up left Chopstick." +
-//							"\n\t\tWill wait.");
-					wait();
-				} catch (InterruptedException e) {
-					System.out.println(" - interrupted exception :(");
-				}
-			}
-			stateChop[piTID - 1] = "occupied";
-//			System.out.println("     Philo " + piTID + " finally picked up left chopstick.");
-		}
-	}
-
-	/**
-	 * Picks up the current philosopher's right chopstick
-	 * @param piTID the piTID of the philosopher picking up
-	 */
-	public void pickUpRightChopstick(int piTID) {
-		if (stateChop[piTID % stateChop.length].equals("available")) {
-			stateChop[piTID % stateChop.length] = "occupied";
-//			System.out.println("     Philo " + piTID + " picked up right chopstick.");
-		}
-		else {
-			while (!stateChop[piTID % stateChop.length].equals("available")) {
-				try {
-//					System.out.println(" --- Philo " + piTID + " can't pick up right Chopstick." +
-//							"\n\t\tWill wait.");
-					wait();
-				} catch (InterruptedException e) {
-					System.out.println(" - interrupted exception :(");
-				}
-			}
-			stateChop[piTID % stateChop.length] = "occupied";
-//			System.out.println("     Philo " + piTID + " finally picked up right chopstick.");
 		}
 	}
 }

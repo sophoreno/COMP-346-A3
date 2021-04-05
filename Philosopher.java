@@ -3,7 +3,7 @@ import java.util.Random;
 
 /**
  * Class Philosopher.
- * Outlines main subrutines of our virtual philosopher.
+ * Outlines main subroutines of our virtual philosopher.
  *
  * @author Serguei A. Mokhov, mokhov@cs.concordia.ca
  */
@@ -37,7 +37,6 @@ public class Philosopher extends BaseThread
 			System.exit(1);
 		}
 	}
-
 	/**
 	 * The act of thinking.
 	 * - Print the fact that a given phil (their TID) has started thinking.
@@ -61,7 +60,6 @@ public class Philosopher extends BaseThread
 			System.exit(1);
 		}
 	}
-
 	/**
 	 * The act of talking.
 	 * - Print the fact that a given phil (their TID) has started talking.
@@ -78,7 +76,6 @@ public class Philosopher extends BaseThread
 		randomYield();
 		System.out.println("Philosopher " + getTID() + " is done talking.");
 	}
-
 	/**
 	 * No, this is not the act of running, just the overridden Thread.run()
 	 */
@@ -102,7 +99,6 @@ public class Philosopher extends BaseThread
 			Thread.yield();
 		}
 	} // run()
-
 	/**
 	 * Prints out a phrase from the array of phrases at random.
 	 * Feel free to add your own phrases.
