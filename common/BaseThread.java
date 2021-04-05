@@ -152,7 +152,6 @@ public class BaseThread extends Thread
 
 			return true;
 		}
-
 		return false;
 	}
 
